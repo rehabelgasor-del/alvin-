@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>كافيه - المنيو ونظام الطلبات الشامل</title>
+    <!-- استدعاء خط تجوال -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,7 +22,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', Tahoma, Arial, sans-serif;
         }
 
         body {
@@ -131,7 +132,6 @@
             cursor: not-allowed;
         }
 
-        /* الشريط السفلي */
         .cart-bar {
             position: fixed;
             bottom: 0;
@@ -158,7 +158,6 @@
             cursor: pointer;
         }
 
-        /* Modal العام */
         .modal {
             display: none;
             position: fixed;
@@ -171,7 +170,7 @@
         }
 
         .modal.active {
-            display: flex;
+            display: flex !important;
         }
 
         .modal-content {
@@ -239,7 +238,6 @@
             border: 1px solid #ccc;
         }
 
-        /* شاشة متابعة الطلب */
         .status-box {
             background: #fff;
             padding: 20px;
@@ -268,7 +266,6 @@
             font-weight: bold;
         }
 
-        /* كروت تقرير الشفت */
         .shift-stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -323,14 +320,12 @@
         </div>
     </header>
 
-    <!-- واجهة العميل -->
     <div class="container" id="customer-view">
         <div id="active-order-status"></div>
         <h2 style="margin-bottom: 15px; font-size: 1.2rem;">قائمة المشروبات</h2>
         <div class="menu-grid" id="menu-container"></div>
     </div>
 
-    <!-- لوحة المطبخ / البارستا -->
     <div class="container" id="barista-view" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h2 style="font-size: 1.2rem;">شاشة طلبات المطبخ</h2>
@@ -341,7 +336,6 @@
         </div>
     </div>
 
-    <!-- شريط السلة السفلي -->
     <div class="cart-bar" id="cart-bar">
         <div>
             <span>العناصر: <strong id="cart-count">0</strong></span> | 
@@ -350,18 +344,15 @@
         <button class="view-cart-btn" onclick="openCartModal()">مراجعة الطلب 🛒</button>
     </div>
 
-    <!-- Modal تفاصيل السلة والدفع -->
     <div class="modal" id="cart-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>تفاصيل السلة والطلب</h3>
                 <button class="close-btn" onclick="closeCartModal()">&times;</button>
             </div>
-
             <div id="cart-items-container"></div>
-
             <div class="form-group">
-                <label>مستوى السكر الأساسي للطلب:</label>
+                <label>مستوى السكر:</label>
                 <select id="sugar-level">
                     <option value="بدون سكر">بدون سكر</option>
                     <option value="سكر خفيف" selected>سكر خفيف</option>
@@ -369,12 +360,10 @@
                     <option value="زيادة">زيادة</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label>ملاحظات إضافية للبارستا:</label>
-                <input type="text" id="order-notes" placeholder="مثال: بدون ثلج / حليب كامل الدسم">
+                <label>ملاحظات إضافية:</label>
+                <input type="text" id="order-notes" placeholder="مثال: بدون ثلج">
             </div>
-
             <div class="form-group">
                 <label>طريقة الدفع:</label>
                 <select id="payment-method">
@@ -382,21 +371,17 @@
                     <option value="كارت / محفظة">محفظة إلكترونية / كارت</option>
                 </select>
             </div>
-
             <button class="add-btn" style="margin-top: 15px; padding: 12px; background-color: var(--accent-caramel); color: var(--dark-brown);" onclick="submitOrder()">تأكيد وإرسال الطلب 🚀</button>
         </div>
     </div>
 
-    <!-- Modal تقفيل وتقارير الشيفت -->
     <div class="modal" id="shift-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>تقرير وتقفيل الشيفت الحالي</h3>
                 <button class="close-btn" onclick="toggleShiftModal()">&times;</button>
             </div>
-
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" id="shift-time-range"></p>
-
             <div class="shift-stats-grid">
                 <div class="stat-card">
                     <h5>إجمالي المبيعات</h5>
@@ -411,325 +396,307 @@
                     <div id="shift-cash-sales">0 ج.م</div>
                 </div>
                 <div class="stat-card">
-                    <h5>مبيعات الكارت/المحفظة</h5>
+                    <h5>مبيعات الكارت</h5>
                     <div id="shift-card-sales">0 ج.م</div>
                 </div>
             </div>
-
-            <h4 style="margin: 10px 0 5px 0; font-size: 0.95rem;">مبيعات المشروبات والمخزون الحالي:</h4>
+            <h4 style="margin: 10px 0 5px 0; font-size: 0.95rem;">المبيعات والمخزون:</h4>
             <div id="shift-item-breakdown" style="max-height: 180px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 15px;"></div>
-
             <div class="form-group" style="margin-bottom: 15px;">
-                <label><input type="checkbox" id="reset-stock-checkbox" checked> إعادة ضبط مخزون جميع المشروبات لـ 30 للشفت الجديد</label>
+                <label><input type="checkbox" id="reset-stock-checkbox" checked> إعادة ضبط المخزون لـ 30 للشفت الجديد</label>
             </div>
-
             <button class="add-btn" style="background-color: var(--danger); padding: 12px;" onclick="closeAndResetShift()">إغلاق الشيفت وتصفير الحسابات 🔒</button>
         </div>
     </div>
 
     <script>
-        const drinks = [
-            { id: 1, name: "إسبريسو سينجل", price: 35, stock: 30, soldInShift: 0 },
-            { id: 2, name: "إسبريسو دبل", price: 45, stock: 30, soldInShift: 0 },
-            { id: 3, name: "أمريكانو", price: 40, stock: 30, soldInShift: 0 },
-            { id: 4, name: "كابتشينو", price: 55, stock: 30, soldInShift: 0 },
-            { id: 5, name: "لاتيه", price: 55, stock: 30, soldInShift: 0 },
-            { id: 6, name: "سبانيش لاتيه", price: 65, stock: 30, soldInShift: 0 },
-            { id: 7, name: "فلات وايت", price: 60, stock: 30, soldInShift: 0 },
-            { id: 8, name: "موكا دافئة", price: 65, stock: 30, soldInShift: 0 },
-            { id: 9, name: "كورتادو", price: 50, stock: 30, soldInShift: 0 },
-            { id: 10, name: "هوت شوكليت", price: 60, stock: 30, soldInShift: 0 },
-            { id: 11, name: "آيس أمريكانو", price: 45, stock: 30, soldInShift: 0 },
-            { id: 12, name: "آيس لاتيه", price: 60, stock: 30, soldInShift: 0 },
-            { id: 13, name: "آيس سبانيش لاتيه", price: 70, stock: 30, soldInShift: 0 },
-            { id: 14, name: "آيس موكا", price: 70, stock: 30, soldInShift: 0 },
-            { id: 15, name: "فرابوتشينو كراميل", price: 75, stock: 30, soldInShift: 0 },
-            { id: 16, name: "شاي أحمر", price: 25, stock: 30, soldInShift: 0 },
-            { id: 17, name: "شاي أخضر", price: 25, stock: 30, soldInShift: 0 },
-            { id: 18, name: "عصير برتقال طازج", price: 45, stock: 30, soldInShift: 0 },
-            { id: 19, name: "عصير ليمون نعناع", price: 40, stock: 30, soldInShift: 0 },
-            { id: 20, name: "موهيتو بلوبيري", price: 65, stock: 30, soldInShift: 0 }
-        ];
+        document.addEventListener('DOMContentLoaded', function() {
+            const drinks = [
+                { id: 1, name: "إسبريسو سينجل", price: 35, stock: 30, soldInShift: 0 },
+                { id: 2, name: "إسبريسو دبل", price: 45, stock: 30, soldInShift: 0 },
+                { id: 3, name: "أمريكانو", price: 40, stock: 30, soldInShift: 0 },
+                { id: 4, name: "كابتشينو", price: 55, stock: 30, soldInShift: 0 },
+                { id: 5, name: "لاتيه", price: 55, stock: 30, soldInShift: 0 },
+                { id: 6, name: "سبانيش لاتيه", price: 65, stock: 30, soldInShift: 0 },
+                { id: 7, name: "فلات وايت", price: 60, stock: 30, soldInShift: 0 },
+                { id: 8, name: "موكا دافئة", price: 65, stock: 30, soldInShift: 0 },
+                { id: 9, name: "كورتادو", price: 50, stock: 30, soldInShift: 0 },
+                { id: 10, name: "هوت شوكليت", price: 60, stock: 30, soldInShift: 0 },
+                { id: 11, name: "آيس أمريكانو", price: 45, stock: 30, soldInShift: 0 },
+                { id: 12, name: "آيس لاتيه", price: 60, stock: 30, soldInShift: 0 },
+                { id: 13, name: "آيس سبانيش لاتيه", price: 70, stock: 30, soldInShift: 0 },
+                { id: 14, name: "آيس موكا", price: 70, stock: 30, soldInShift: 0 },
+                { id: 15, name: "فرابوتشينو كراميل", price: 75, stock: 30, soldInShift: 0 },
+                { id: 16, name: "شاي أحمر", price: 25, stock: 30, soldInShift: 0 },
+                { id: 17, name: "شاي أخضر", price: 25, stock: 30, soldInShift: 0 },
+                { id: 18, name: "عصير برتقال طازج", price: 45, stock: 30, soldInShift: 0 },
+                { id: 19, name: "عصير ليمون نعناع", price: 40, stock: 30, soldInShift: 0 },
+                { id: 20, name: "موهيتو بلوبيري", price: 65, stock: 30, soldInShift: 0 }
+            ];
 
-        let cart = [];
-        let shiftOrders = [];
-        let currentActiveOrder = null;
+            let cart = [];
+            let shiftOrders = [];
+            let currentActiveOrder = null;
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const tableNumber = urlParams.get('table') || "5";
-        document.getElementById('table-display').innerText = `طاولة: ${tableNumber}`;
+            const urlParams = new URLSearchParams(window.location.search);
+            const tableNumber = urlParams.get('table') || "5";
+            document.getElementById('table-display').innerText = `طاولة: ${tableNumber}`;
 
-        // تحديد الشفت الحالي تلقائياً بناءً على الوقت (كل 8 ساعات)
-        function getCurrentShiftName() {
-            const hour = new Date().getHours();
-            if (hour >= 8 && hour < 16) return "الشيفت الصباحي (8 ص - 4 ع)";
-            if (hour >= 16 && hour < 24) return "الشيفت المسائي (4 ع - 12 ظ)";
-            return "الشيفت الليلي (12 ظ - 8 ص)";
-        }
-
-        document.getElementById('current-shift-label').innerText = getCurrentShiftName();
-
-        function renderMenu() {
-            const container = document.getElementById('menu-container');
-            container.innerHTML = '';
-
-            drinks.forEach(drink => {
-                const isOutOfStock = drink.stock <= 0;
-                const card = document.createElement('div');
-                card.className = 'drink-card';
-                card.innerHTML = `
-                    <div class="drink-info">
-                        <h3>${drink.name}</h3>
-                        <div class="drink-price">${drink.price} ج.م</div>
-                        <div class="stock-tag ${isOutOfStock ? 'out' : ''}">
-                            ${isOutOfStock ? 'نفد من المخزون' : `المتبقي: ${drink.stock}`}
-                        </div>
-                    </div>
-                    <button class="add-btn" onclick="addToCart(${drink.id})" ${isOutOfStock ? 'disabled' : ''}>
-                        ${isOutOfStock ? 'غير متوفر' : 'إضافة +'}
-                    </button>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function addToCart(drinkId) {
-            const drink = drinks.find(d => d.id === drinkId);
-            if (drink && drink.stock > 0) {
-                const existing = cart.find(item => item.id === drinkId);
-                if (existing) {
-                    if (existing.qty < drink.stock) existing.qty++;
-                } else {
-                    cart.push({ ...drink, qty: 1 });
-                }
-                updateCartUI();
+            function getCurrentShiftName() {
+                const hour = new Date().getHours();
+                if (hour >= 8 && hour < 16) return "الشيفت الصباحي (8 ص - 4 ع)";
+                if (hour >= 16 && hour < 24) return "الشيفت المسائي (4 ع - 12 ظ)";
+                return "الشيفت الليلي (12 ظ - 8 ص)";
             }
-        }
 
-        function changeQty(drinkId, delta) {
-            const item = cart.find(i => i.id === drinkId);
-            const drink = drinks.find(d => d.id === drinkId);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== drinkId);
-                } else if (item.qty > drink.stock) {
-                    item.qty = drink.stock;
-                }
-            }
-            updateCartUI();
-            renderCartModalItems();
-        }
+            document.getElementById('current-shift-label').innerText = getCurrentShiftName();
 
-        function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            
-            document.getElementById('cart-count').innerText = totalCount;
-            document.getElementById('cart-total').innerText = totalPrice;
-        }
-
-        function openCartModal() {
-            if (cart.length === 0) return alert("السلة فارغة!");
-            renderCartModalItems();
-            document.getElementById('cart-modal').classList.add('active');
-        }
-
-        function closeCartModal() {
-            document.getElementById('cart-modal').classList.remove('active');
-        }
-
-        function renderCartModalItems() {
-            const container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
-            cart.forEach(item => {
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <div>
-                            <strong>${item.name}</strong>
-                            <div style="font-size:0.8rem; color:#666;">${item.price * item.qty} ج.م</div>
+            window.renderMenu = function() {
+                const container = document.getElementById('menu-container');
+                container.innerHTML = '';
+                drinks.forEach(drink => {
+                    const isOutOfStock = drink.stock <= 0;
+                    const card = document.createElement('div');
+                    card.className = 'drink-card';
+                    card.innerHTML = `
+                        <div class="drink-info">
+                            <h3>${drink.name}</h3>
+                            <div class="drink-price">${drink.price} ج.م</div>
+                            <div class="stock-tag ${isOutOfStock ? 'out' : ''}">
+                                ${isOutOfStock ? 'نفد من المخزون' : `المتبقي: ${drink.stock}`}
+                            </div>
                         </div>
-                        <div class="qty-controls">
-                            <button onclick="changeQty(${item.id}, -1)">-</button>
-                            <span style="margin: 0 8px;">${item.qty}</span>
-                            <button onclick="changeQty(${item.id}, 1)">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function submitOrder() {
-            cart.forEach(cartItem => {
-                const drink = drinks.find(d => d.id === cartItem.id);
-                if (drink) {
-                    drink.stock -= cartItem.qty;
-                    drink.soldInShift += cartItem.qty;
-                }
-            });
-
-            const order = {
-                id: Date.now().toString().slice(-4),
-                table: tableNumber,
-                items: [...cart],
-                sugar: document.getElementById('sugar-level').value,
-                notes: document.getElementById('order-notes').value,
-                payment: document.getElementById('payment-method').value,
-                total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
-                status: 'received'
+                        <button class="add-btn" onclick="addToCart(${drink.id})" ${isOutOfStock ? 'disabled' : ''}>
+                            ${isOutOfStock ? 'غير متوفر' : 'إضافة +'}
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
             };
 
-            shiftOrders.push(order);
-            currentActiveOrder = order;
+            window.addToCart = function(drinkId) {
+                const drink = drinks.find(d => d.id === drinkId);
+                if (drink && drink.stock > 0) {
+                    const existing = cart.find(item => item.id === drinkId);
+                    if (existing) {
+                        if (existing.qty < drink.stock) existing.qty++;
+                    } else {
+                        cart.push({ ...drink, qty: 1 });
+                    }
+                    updateCartUI();
+                }
+            };
 
-            cart = [];
-            updateCartUI();
-            closeCartModal();
-            renderMenu();
-            renderCustomerOrderStatus();
-            renderBaristaOrders();
-        }
+            window.changeQty = function(drinkId, delta) {
+                const item = cart.find(i => i.id === drinkId);
+                const drink = drinks.find(d => d.id === drinkId);
+                if (item) {
+                    item.qty += delta;
+                    if (item.qty <= 0) {
+                        cart = cart.filter(i => i.id !== drinkId);
+                    } else if (item.qty > drink.stock) {
+                        item.qty = drink.stock;
+                    }
+                }
+                updateCartUI();
+                renderCartModalItems();
+            };
 
-        function renderCustomerOrderStatus() {
-            const statusDiv = document.getElementById('active-order-status');
-            if (!currentActiveOrder) {
-                statusDiv.innerHTML = '';
-                return;
+            function updateCartUI() {
+                const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                document.getElementById('cart-count').innerText = totalCount;
+                document.getElementById('cart-total').innerText = totalPrice;
             }
 
-            const { id, status } = currentActiveOrder;
-            statusDiv.innerHTML = `
-                <div class="status-box">
-                    <h3>طلب رقم #${id}</h3>
-                    <div class="status-step">
-                        <span class="step ${status === 'received' ? 'active' : ''}">1. تم الاستلام</span>
-                        <span class="step ${status === 'preparing' ? 'active' : ''}">2. جاري التحضير</span>
-                        <span class="step ${status === 'ready' ? 'active' : ''}">3. جاهز للتسليم ☕</span>
-                    </div>
-                </div>
-            `;
-        }
+            window.openCartModal = function() {
+                if (cart.length === 0) return alert("السلة فارغة!");
+                renderCartModalItems();
+                document.getElementById('cart-modal').classList.add('active');
+            };
 
-        function toggleBaristaView() {
-            const customerView = document.getElementById('customer-view');
-            const baristaView = document.getElementById('barista-view');
-            const cartBar = document.getElementById('cart-bar');
-            const toggleBtn = document.getElementById('view-toggle-btn');
+            window.closeCartModal = function() {
+                document.getElementById('cart-modal').classList.remove('active');
+            };
 
-            if (baristaView.style.display === 'none') {
-                baristaView.style.display = 'block';
-                customerView.style.display = 'none';
-                cartBar.style.display = 'none';
-                toggleBtn.innerText = 'واجهة العميل';
-            } else {
-                baristaView.style.display = 'none';
-                customerView.style.display = 'block';
-                cartBar.style.display = 'flex';
-                toggleBtn.innerText = 'لوحة البارستا';
+            function renderCartModalItems() {
+                const container = document.getElementById('cart-items-container');
+                container.innerHTML = '';
+                cart.forEach(item => {
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <div>
+                                <strong>${item.name}</strong>
+                                <div style="font-size:0.8rem; color:#666;">${item.price * item.qty} ج.م</div>
+                            </div>
+                            <div class="qty-controls">
+                                <button onclick="changeQty(${item.id}, -1)">-</button>
+                                <span style="margin: 0 8px;">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
             }
-        }
 
-        function updateOrderStatus(orderId, newStatus) {
-            const order = shiftOrders.find(o => o.id === orderId);
-            if (order) {
-                order.status = newStatus;
-                renderBaristaOrders();
+            window.submitOrder = function() {
+                cart.forEach(cartItem => {
+                    const drink = drinks.find(d => d.id === cartItem.id);
+                    if (drink) {
+                        drink.stock -= cartItem.qty;
+                        drink.soldInShift += cartItem.qty;
+                    }
+                });
+
+                const order = {
+                    id: Date.now().toString().slice(-4),
+                    table: tableNumber,
+                    items: [...cart],
+                    sugar: document.getElementById('sugar-level').value,
+                    notes: document.getElementById('order-notes').value,
+                    payment: document.getElementById('payment-method').value,
+                    total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
+                    status: 'received'
+                };
+
+                shiftOrders.push(order);
+                currentActiveOrder = order;
+
+                cart = [];
+                updateCartUI();
+                closeCartModal();
+                renderMenu();
                 renderCustomerOrderStatus();
-            }
-        }
+                renderBaristaOrders();
+            };
 
-        function renderBaristaOrders() {
-            const container = document.getElementById('barista-orders-list');
-            if (shiftOrders.length === 0) {
-                container.innerHTML = '<p>لا توجد طلبات جديدة حالياً لهذا الشيفت.</p>';
-                return;
-            }
-
-            container.innerHTML = '';
-            shiftOrders.forEach(ord => {
-                const itemsList = ord.items.map(i => `${i.name} (x${i.qty})`).join(', ');
-                container.innerHTML += `
-                    <div class="order-card-barista">
-                        <h4>طلب #${ord.id} - <strong>طاولة ${ord.table}</strong></h4>
-                        <p style="margin: 5px 0;"><strong>العناصر:</strong> ${itemsList}</p>
-                        <p style="font-size:0.85rem; color:#555;">السكر: ${ord.sugar} | ملاحظات: ${ord.notes || 'لا يوجد'}</p>
-                        <p style="font-size:0.85rem; color:#555;">الدفع: ${ord.payment} | الإجمالي: ${ord.total} ج.م</p>
-                        <div style="margin-top: 10px;">
-                            <button class="add-btn" style="width:auto; padding:5px 10px;" onclick="updateOrderStatus('${ord.id}', 'preparing')">بدء التحضير</button>
-                            <button class="add-btn" style="width:auto; padding:5px 10px; background-color: var(--success);" onclick="updateOrderStatus('${ord.id}', 'ready')">جاهز</button>
+            function renderCustomerOrderStatus() {
+                const statusDiv = document.getElementById('active-order-status');
+                if (!currentActiveOrder) {
+                    statusDiv.innerHTML = '';
+                    return;
+                }
+                const { id, status } = currentActiveOrder;
+                statusDiv.innerHTML = `
+                    <div class="status-box">
+                        <h3>طلب رقم #${id}</h3>
+                        <div class="status-step">
+                            <span class="step ${status === 'received' ? 'active' : ''}">1. تم الاستلام</span>
+                            <span class="step ${status === 'preparing' ? 'active' : ''}">2. جاري التحضير</span>
+                            <span class="step ${status === 'ready' ? 'active' : ''}">3. جاهز للتسليم ☕</span>
                         </div>
                     </div>
                 `;
-            });
-        }
-
-        /* ووظائف تقفيل الشيفت */
-        function toggleShiftModal() {
-            const modal = document.getElementById('shift-modal');
-            if (modal.classList.contains('active')) {
-                modal.classList.remove('active');
-            } else {
-                calculateShiftSummary();
-                modal.classList.add('active');
             }
-        }
 
-        function calculateShiftSummary() {
-            document.getElementById('shift-time-range').innerText = `الشيفت الحالي: ${getCurrentShiftName()}`;
-            
-            const totalSales = shiftOrders.reduce((sum, o) => sum + o.total, 0);
-            const cashSales = shiftOrders.filter(o => o.payment === 'كاش').reduce((sum, o) => sum + o.total, 0);
-            const cardSales = shiftOrders.filter(o => o.payment !== 'كاش').reduce((sum, o) => sum + o.total, 0);
+            window.toggleBaristaView = function() {
+                const customerView = document.getElementById('customer-view');
+                const baristaView = document.getElementById('barista-view');
+                const cartBar = document.getElementById('cart-bar');
+                const toggleBtn = document.getElementById('view-toggle-btn');
 
-            document.getElementById('shift-total-sales').innerText = `${totalSales} ج.م`;
-            document.getElementById('shift-orders-count').innerText = shiftOrders.length;
-            document.getElementById('shift-cash-sales').innerText = `${cashSales} ج.م`;
-            document.getElementById('shift-card-sales').innerText = `${cardSales} ج.م`;
+                if (baristaView.style.display === 'none') {
+                    baristaView.style.display = 'block';
+                    customerView.style.display = 'none';
+                    cartBar.style.display = 'none';
+                    toggleBtn.innerText = 'واجهة العميل';
+                } else {
+                    baristaView.style.display = 'none';
+                    customerView.style.display = 'block';
+                    cartBar.style.display = 'flex';
+                    toggleBtn.innerText = 'لوحة البارستا';
+                }
+            };
 
-            const breakdownContainer = document.getElementById('shift-item-breakdown');
-            breakdownContainer.innerHTML = '';
-            
-            drinks.forEach(d => {
-                if (d.soldInShift > 0 || d.stock < 30) {
-                    breakdownContainer.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                            <span>${d.name}</span>
-                            <span>المباع: <strong>${d.soldInShift}</strong> | المتبقي: <strong>${d.stock}</strong></span>
+            window.updateOrderStatus = function(orderId, newStatus) {
+                const order = shiftOrders.find(o => o.id === orderId);
+                if (order) {
+                    order.status = newStatus;
+                    renderBaristaOrders();
+                    renderCustomerOrderStatus();
+                }
+            };
+
+            function renderBaristaOrders() {
+                const container = document.getElementById('barista-orders-list');
+                if (shiftOrders.length === 0) {
+                    container.innerHTML = '<p>لا توجد طلبات جديدة حالياً لهذا الشيفت.</p>';
+                    return;
+                }
+                container.innerHTML = '';
+                shiftOrders.forEach(ord => {
+                    const itemsList = ord.items.map(i => `${i.name} (x${i.qty})`).join(', ');
+                    container.innerHTML += `
+                        <div class="order-card-barista">
+                            <h4>طلب #${ord.id} - <strong>طاولة ${ord.table}</strong></h4>
+                            <p style="margin: 5px 0;"><strong>العناصر:</strong> ${itemsList}</p>
+                            <p style="font-size:0.85rem; color:#555;">السكر: ${ord.sugar} | ملاحظات: ${ord.notes || 'لا يوجد'}</p>
+                            <p style="font-size:0.85rem; color:#555;">الدفع: ${ord.payment} | الإجمالي: ${ord.total} ج.م</p>
+                            <div style="margin-top: 10px;">
+                                <button class="add-btn" style="width:auto; padding:5px 10px;" onclick="updateOrderStatus('${ord.id}', 'preparing')">بدء التحضير</button>
+                                <button class="add-btn" style="width:auto; padding:5px 10px; background-color: var(--success);" onclick="updateOrderStatus('${ord.id}', 'ready')">جاهز</button>
+                            </div>
                         </div>
                     `;
-                }
-            });
-
-            if (breakdownContainer.innerHTML === '') {
-                breakdownContainer.innerHTML = 'لم يتم بيع أي مشروبات في هذا الشيفت بعد.';
+                });
             }
-        }
 
-        function closeAndResetShift() {
-            if (!confirm("هل أنت تأكد من إغلاق الشيفت الحالي وتصفير البيانات للشيفت الجديد؟")) return;
-
-            const shouldResetStock = document.getElementById('reset-stock-checkbox').checked;
-
-            // إعادة ضبط الإحصائيات
-            shiftOrders = [];
-            currentActiveOrder = null;
-
-            drinks.forEach(d => {
-                d.soldInShift = 0;
-                if (shouldResetStock) {
-                    d.stock = 30; // تصفير وإعادة تعبئة لـ 30
+            window.toggleShiftModal = function() {
+                const modal = document.getElementById('shift-modal');
+                if (modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                } else {
+                    calculateShiftSummary();
+                    modal.classList.add('active');
                 }
-            });
+            };
+
+            function calculateShiftSummary() {
+                document.getElementById('shift-time-range').innerText = `الشيفت الحالي: ${getCurrentShiftName()}`;
+                const totalSales = shiftOrders.reduce((sum, o) => sum + o.total, 0);
+                const cashSales = shiftOrders.filter(o => o.payment === 'كاش').reduce((sum, o) => sum + o.total, 0);
+                const cardSales = shiftOrders.filter(o => o.payment !== 'كاش').reduce((sum, o) => sum + o.total, 0);
+
+                document.getElementById('shift-total-sales').innerText = `${totalSales} ج.م`;
+                document.getElementById('shift-orders-count').innerText = shiftOrders.length;
+                document.getElementById('shift-cash-sales').innerText = `${cashSales} ج.م`;
+                document.getElementById('shift-card-sales').innerText = `${cardSales} ج.م`;
+
+                const breakdownContainer = document.getElementById('shift-item-breakdown');
+                breakdownContainer.innerHTML = '';
+                drinks.forEach(d => {
+                    if (d.soldInShift > 0 || d.stock < 30) {
+                        breakdownContainer.innerHTML += `
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                                <span>${d.name}</span>
+                                <span>المباع: <strong>${d.soldInShift}</strong> | المتبقي: <strong>${d.stock}</strong></span>
+                            </div>
+                        `;
+                    }
+                });
+                if (breakdownContainer.innerHTML === '') {
+                    breakdownContainer.innerHTML = 'لم يتم بيع أي مشروبات في هذا الشيفت بعد.';
+                }
+            }
+
+            window.closeAndResetShift = function() {
+                if (!confirm("هل أنت تأكد من إغلاق الشيفت الحالي وتصفير البيانات للشيفت الجديد؟")) return;
+                const shouldResetStock = document.getElementById('reset-stock-checkbox').checked;
+                shiftOrders = [];
+                currentActiveOrder = null;
+                drinks.forEach(d => {
+                    d.soldInShift = 0;
+                    if (shouldResetStock) d.stock = 30;
+                });
+                renderMenu();
+                renderBaristaOrders();
+                renderCustomerOrderStatus();
+                toggleShiftModal();
+                alert("تم إغلاق الشيفت بنجاح وبدء شيفت جديد! 🏁");
+            };
 
             renderMenu();
-            renderBaristaOrders();
-            renderCustomerOrderStatus();
-            toggleShiftModal();
-
-            alert("تم إغلاق الشيفت بنجاح وبدء شيفت جديد! 🏁");
-        }
-
-        renderMenu();
+        });
     </script>
 </body>
 </html>
